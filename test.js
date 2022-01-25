@@ -5,6 +5,10 @@ const { expect } = require('chai');
 // - orientation l, r
 // - déplacement : f, b
 
+// \ N /
+//  W+E
+// / S \
+
 // scenari:
 // "ffrlff'
 // "f"
@@ -25,16 +29,21 @@ const { expect } = require('chai');
 // 01---> x
 
 class Rover {
-
-  constructor({x, y}) {
+  constructor({ x, y, direction }) {
     this.position = {
       x,
       y,
-    }
+    };
+
+    this.direction = direction;
   }
 
   evalCommands(commands) {
-    this.position.x += commands.length;
+    if (this.direction === 'N') {
+      this.position.y += commands.length;
+    } else if (this.direction === 'E') {
+      this.position.x += commands.length;
+    }
   }
 }
 
@@ -47,16 +56,16 @@ class Rover {
 // | .
 // 0-2--> x
 
-it('should go forward when sequence is f', function() {
+it('should go forward when sequence is f', function () {
   // given
-  const rover = new Rover({x: 1, y: 3});
+  const rover = new Rover({ x: 1, y: 3, direction: 'E' });
 
   // when
   rover.evalCommands('f');
 
   // then
   const actualPosition = rover.position;
-  expect(actualPosition).to.deep.equal({x: 2, y: 3});
+  expect(actualPosition).to.deep.equal({ x: 2, y: 3 });
 });
 
 // y
@@ -68,26 +77,38 @@ it('should go forward when sequence is f', function() {
 // |  .
 // 0--3-> x
 
-it('should go two steps forward when sequence is ff', function() {
+it('should go two steps forward when sequence is ff', function () {
   // given
-  const rover = new Rover({x: 1, y: 3});
+  const rover = new Rover({ x: 1, y: 3, direction: 'E' });
 
   // when
   rover.evalCommands('ff');
 
   // then
   const actualPosition = rover.position;
-  expect(actualPosition).to.deep.equal({x: 3, y: 3});
+  expect(actualPosition).to.deep.equal({ x: 3, y: 3 });
 });
 
-it('should go one step forward from x:1, y:1 when sequence is f', function() {
+it('should go one step forward from x:1, y:1 when sequence is f', function () {
   // given
-  const rover = new Rover({x: 1, y: 1});
+  const rover = new Rover({ x: 1, y: 1, direction: 'E' });
 
   // when
   rover.evalCommands('f');
 
   // then
   const actualPosition = rover.position;
-  expect(actualPosition).to.deep.equal({x: 2, y: 1});
+  expect(actualPosition).to.deep.equal({ x: 2, y: 1 });
+});
+
+it('should go one step forward from x:1, y:1 facing north when sequence is f', function () {
+  // given
+  const rover = new Rover({ x: 1, y: 1, direction: 'N' });
+
+  // when
+  rover.evalCommands('f');
+
+  // then
+  const actualPosition = rover.position;
+  expect(actualPosition).to.deep.equal({ x: 1, y: 2 });
 });
