@@ -25,11 +25,15 @@ const { expect } = require('chai');
 // 01---> x
 
 class Rover {
-  evalCommands(commands) {
+
+  constructor({x, y}) {
     this.position = {
-      x: 1,
-      y: 3
+      x,
+      y,
     }
+  }
+
+  evalCommands(commands) {
     this.position.x += commands.length;
   }
 }
@@ -45,7 +49,7 @@ class Rover {
 
 it('should go forward when sequence is f', function() {
   // given
-  const rover = new Rover();
+  const rover = new Rover({x: 1, y: 3});
 
   // when
   rover.evalCommands('f');
@@ -66,7 +70,7 @@ it('should go forward when sequence is f', function() {
 
 it('should go two steps forward when sequence is ff', function() {
   // given
-  const rover = new Rover();
+  const rover = new Rover({x: 1, y: 3});
 
   // when
   rover.evalCommands('ff');
@@ -74,4 +78,16 @@ it('should go two steps forward when sequence is ff', function() {
   // then
   const actualPosition = rover.position;
   expect(actualPosition).to.deep.equal({x: 3, y: 3});
+});
+
+it('should go one step forward from x:1, y:1 when sequence is f', function() {
+  // given
+  const rover = new Rover({x: 1, y: 1});
+
+  // when
+  rover.evalCommands('f');
+
+  // then
+  const actualPosition = rover.position;
+  expect(actualPosition).to.deep.equal({x: 2, y: 1});
 });
