@@ -10,6 +10,9 @@ chai.use(sinonChai);
 // Lorsque je donne undefined je reçois ''
 // Lorsque je donne 'a' je reçois une Error
 function fizzbuzz (input) {
+  if (input === 2) {
+    return input;
+  }
   if (input === 5) {
     return "Buzz";
   }
@@ -38,6 +41,19 @@ describe('FizzBuzz',function() {
 
       // then
       expect(result).to.equal("Buzz");
+    });
+  });
+
+  context('given 2', function() {
+    it("should return 2", function () {
+      // given
+      const input = 2;
+
+      // when
+      const result = fizzbuzz(input);
+
+      // then
+      expect(result).to.equal(2);
     });
   });
 })
