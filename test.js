@@ -9,16 +9,21 @@ chai.use(sinonChai);
 // Lorsque je donne 2 je reçois 2
 // Lorsque je donne undefined je reçois ''
 // Lorsque je donne 'a' je reçois une Error
-
+function fizzbuzz () {
+  return '';
+}
 describe('FizzBuzz',function() {
-  it("given 3 should return 'Fizz'", function() {
+  it("given undefined, should return empty string", function() {
     // given
+    const input = undefined;
 
     // when
+    const result = fizzbuzz(input);
+
 
 
     // then
-    expect(1).to.equal(0);
+    expect(result).to.equal('');
   });
 })
 
