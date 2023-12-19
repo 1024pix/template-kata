@@ -3,7 +3,7 @@ const expect = chai.expect;
 import sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 import * as input from './input.js'
-import {isDigit, isSymbol, getNumbers} from './day3part1.js';
+import {isAdjacentSymbol, isDigit, isSymbol, getNumbers, sumEngineParts} from './day3part1.js';
 
 describe('When you have an input file',function() {
   it('should return array of int for each line', function() {
@@ -72,6 +72,64 @@ describe('When you have an input file',function() {
 
         // then
         expect(result).to.deep.equal(['467', '114']);
+      })
+    });
+
+    describe ('#isAdjacentSymbol', function() {
+      describe ('When char is on index 1 of a line', function () {
+        it ('should return true when number is adjacent to a symbol', function () {
+          // given
+          const line = '.4*.';
+          const indexOfChar = [1, 0];
+
+          // when
+          const result = isAdjacentSymbol(line, indexOfChar);
+
+          // then
+          expect(result).to.be.true;
+        });
+      });
+
+      describe ('When char is on last index of a line', function () {
+        it ('should return false when number is not adjacent to a symbol', function () {
+          // given
+          const line = '*.4';
+          const indexOfChar = [2, 0];
+
+          // when
+          const result = isAdjacentSymbol(line, indexOfChar);
+
+          // then
+          expect(result).to.be.false;
+
+        });
+      });
+
+      describe ('When char is on index [1,1] of a matrix', function () {
+        it ('should return true when number is adjacent to a symbol', function () {
+          // given
+          const lines = ['...', '..2', '.%.'];
+          const indexOfChar = [1, 2];
+
+          // when
+          const result = isAdjacentSymbol(lines, indexOfChar);
+
+          // then
+          expect(result).to.be.true;
+        });
+      });
+    });
+
+    describe('#isAnEnginePart', function() {
+      it('should sum all parts of the engine', function () {
+        // given
+        const inputText = input.getInput();
+
+        // when
+        const sum = sumEngineParts(inputText);
+
+        // then
+        expect(sum).to.equal(4361);
       })
     });
   });
