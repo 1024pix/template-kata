@@ -16,5 +16,26 @@ const isDigit = (char) => {
     }
 };
 
-export default isDigit;
+const isSymbol = (char) => {
+    const parsedChar = parseInt(char);
+    if(isNaN(parsedChar) && char !== '.') return true;
+    return false
+};
+
+const getNumbers = (line) => {
+  const chars = line.split('');
+  let numbers = [];
+  let number = '';
+  for (let i = 0; i < chars.length; i++) {
+    if(isDigit(chars[i])) {
+      number += chars[i];
+    } else {
+      numbers.push(number);
+      number = '';
+    }
+  }
+  return numbers.filter((element) => element);
+}
+
+export { getNumbers, isDigit, isSymbol };
 
